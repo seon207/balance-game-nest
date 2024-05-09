@@ -1,11 +1,4 @@
-import { Question } from 'src/question/schemas/question.schema';
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Field extends BaseEntity {
@@ -14,9 +7,4 @@ export class Field extends BaseEntity {
 
   @Column()
   name: string;
-
-  @OneToMany(() => Question, (question) => question.fieldId, {
-    eager: false,
-  })
-  questions: Question[];
 }
