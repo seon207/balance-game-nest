@@ -12,7 +12,7 @@ export class Question extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Field, (field) => field.questions, { eager: true })
+  @ManyToOne(() => Field, (field) => field.id, { eager: true })
   fieldId: number;
 
   @Column()
