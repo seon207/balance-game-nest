@@ -13,7 +13,7 @@ const typeORMConfig: TypeOrmModuleOptions = {
   database: process.env.DB_DATABASE,
   entities: [__dirname + '/../**/schemas/*.schema.{js,ts}'],
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: false,
   namingStrategy: new SnakeNamingStrategy(),
 };
 
