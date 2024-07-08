@@ -1,6 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Query } from '@nestjs/common';
 import { QuestonService } from './question.service';
-import { QuestionRandomResponseDto } from './dtos/question.dto';
+import {
+  QuestionRandomResponseDto,
+  QuestionRatioRequestDto,
+  QuestionRatioResponseDto,
+} from './dtos/question.dto';
 
 @Controller('question')
 export class QuestionController {
@@ -11,5 +15,12 @@ export class QuestionController {
     @Query('fieldId') fieldId: number,
   ): Promise<QuestionRandomResponseDto[]> {
     return this.questionService.getRandomQuestions(fieldId);
+  }
+
+  @Get('/result')
+  getQuestionRatio(
+    @Body() questionRatioRequestDto: QuestionRatioRequestDto,
+  ): Promise<QuestionRatioResponseDto[]> {
+    return this.questionService.getQuestionRatio(questionRatioRequestDto);
   }
 }
