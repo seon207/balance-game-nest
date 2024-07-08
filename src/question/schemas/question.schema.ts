@@ -3,6 +3,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -12,8 +13,9 @@ export class Question extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Field, (field) => field.id, { eager: true })
-  fieldId: number;
+  @ManyToOne(() => Field, { eager: true })
+  @JoinColumn()
+  field: Field;
 
   @Column()
   questionA: string;
@@ -21,9 +23,9 @@ export class Question extends BaseEntity {
   @Column()
   questionB: string;
 
-  @Column()
+  @Column({ default: 0 })
   a: number;
 
-  @Column()
+  @Column({ default: 0 })
   b: number;
 }
