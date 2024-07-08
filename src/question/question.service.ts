@@ -1,7 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuestionRepository } from './question.repository';
-import { QuestionRandomResponseDto } from './dtos/question.dto';
+import {
+  QuestionRandomResponseDto,
+  QuestionRatioRequestDto,
+  QuestionRatioResponseDto,
+} from './dtos/question.dto';
 
 @Injectable()
 export class QuestonService {
@@ -47,4 +51,22 @@ export class QuestonService {
     // 앞에서부터 n개의 요소를 선택하여 반환
     return shuffled.slice(0, n);
   };
+
+  async getQuestionRatio(
+    questionRatioRequestDto: QuestionRatioRequestDto,
+  ): Promise<QuestionRatioResponseDto[]> {
+    // questionId에 맞는 질문 리스트 가져오기
+    const questions = await this.questionRepository.getQuestionsById(
+      questionRatioRequestDto.questionIds,
+    );
+
+    const questionRatioResult = questions.map((question) => {
+      // 답변 비율 계산
+      const ratioA: number = question.a / (question.a + question.b);
+      const ratioB: number = question.b / (question.a + question.b);
+      return QuestionRatioResponseDto.of(question, ratioA, ratioB);
+    });
+
+    return questionRatioResult;
+  }
 }
