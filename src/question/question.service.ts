@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuestionRepository } from './question.repository';
 import { QuestionRandomResponseDto } from './dtos/question.dto';
-import { In } from 'typeorm';
 
 @Injectable()
 export class QuestonService {
@@ -24,9 +23,8 @@ export class QuestonService {
     const randomIds: number[] = this.getRandomNumbers(questionIds, 10);
 
     // question_id가 랜덤 정수 리스트에 속하는 질문만 가져오기
-    const randomQuestions = await this.questionRepository.findBy({
-      id: In(randomIds),
-    });
+    const randomQuestions =
+      await this.questionRepository.getQuestionsById(randomIds);
 
     const randomQuestionResult = randomQuestions.map((randomQuestion) => {
       return QuestionRandomResponseDto.of(randomQuestion);
